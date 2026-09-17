@@ -1,56 +1,43 @@
-# SOLVE ZERO — MVP marketplace inteligente para Moçambique
+# SOLVE ZERO — MVP marketplace para Moçambique
 
-Aplicação web/mobile para marketplace/intermediário inteligente, focada em Moçambique, com fluxo:
-PEDIDO → PESQUISA → OPÇÕES REAIS → ESCOLHA → PAGAMENTO → TRANSAÇÃO → COMISSÃO.
+## Estado real do projecto
+A aplicação web está implementada e o repositório contém uma API Express funcional para ofertas, fornecedores, pedidos e transações.
 
-Objetivo
-- Permitir que qualquer pessoa peça um produto ou serviço por texto.
-- Informar localização e orçamento.
-- Mostrar opções verificáveis e reais, sem inventar preços, disponibilidade ou fornecedores.
-- Separar transação, pagamento e comissão de forma transparente.
-- Preparar a base para automação futura de pesquisa, pedidos, pagamentos e acompanhamento.
+Os pagamentos mKesh, M-Pesa e e-Mola aparecem no fluxo e o backend aceita pedidos com o método seleccionado. **Nenhum pagamento é marcado como pago automaticamente**: a confirmação deve vir do webhook oficial do provedor, com credenciais, assinatura e contrato de integração válidos.
 
-Funcionalidades do MVP
-- Pesquisa por produto/serviço por categoria e texto livre
-- Localização e orçamento
-- Comparação de opções reais com fonte validada
-- Escolha de fornecedor e confirmação de pedido
-- Pagamentos com mKesh, M-Pesa e e-Mola (modo visível, pronto para integração real)
-- Painel administrativo simples com pedidos, comissões e fornecedores
-- Estrutura mobile-first e rápida para Android
-- API local de dados para simulação de resultados e pedidos
+Não é possível activar pagamentos financeiros reais apenas pelo código. São necessários:
+- conta comercial/aprovação de cada provedor;
+- credenciais de produção e URLs oficiais;
+- número/conta de recebimento da SOLVE ZERO;
+- configuração de webhooks e validação de assinatura;
+- testes de sandbox e conformidade local.
 
-Regras de negócio
-- Sem stock próprio
-- Sem inventar preços, disponibilidade ou fornecedores
-- Apenas dados verificáveis e explícitos na UI
-- Transparência total na comissão do intermediário
+## Executar
+```bash
+npm install
+npm run dev:server
+npm run dev
+```
 
-Tecnologias
-- React
-- Vite
-- Express (API local)
-- CSS moderno
+Abrir `http://localhost:3000`.
 
-Execução local
-1. Instale dependências:
-   npm install
-2. Inicie a API local:
-   npm run dev:server
-3. Inicie a app web:
-   npm run dev
-4. Abra no navegador:
-   http://localhost:3000
+## Variáveis de ambiente
+Copiar `.env.example` para `.env`. Nunca guardar segredos no GitHub.
 
-Build de produção
-npm run build
+## Endpoints
+- `GET /api/health`
+- `GET /api/categories`
+- `GET /api/offers`
+- `GET /api/suppliers`
+- `GET /api/orders`
+- `GET /api/transactions`
+- `POST /api/orders`
+- `POST /api/payments/:provider/webhook`
 
-Observação importante sobre pagamentos
-Este MVP inclui fluxos visuais e estruturais para mKesh, M-Pesa e e-Mola, mas não estabelece uma integração financeira real com provedores externos. O objetivo é preparar a UX, o processo e a lógica para futuras integrações seguras e auto-contidas.
-
-Estrutura do projeto
-- src/App.jsx — lógica principal da aplicação
-- src/styles.css — estilos responsivos
-- src/main.jsx — bootstrap do React
-- server.js — API local de dados e simulação de pedidos
-
+## Segurança antes do lançamento
+- trocar arrays em memória por PostgreSQL/SQLite;
+- autenticação e autorização de admin;
+- validação dos webhooks com documentação oficial;
+- idempotência, auditoria, reconciliação e logs;
+- HTTPS, rate limiting, validação de telefone e proteção de dados;
+- substituir ofertas de demonstração por fontes realmente verificadas.
