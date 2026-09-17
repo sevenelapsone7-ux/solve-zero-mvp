@@ -1,2 +1,14 @@
-# solve-zero-mvp
-MVP marketplace/intermediary for Mozambique with real sourcing flow, admin dashboard, and mKesh payment-ready experience.
+# Node
+node_modules/
+dist/
+.vite/
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
+
+# Logs
+npm-debug.log*
