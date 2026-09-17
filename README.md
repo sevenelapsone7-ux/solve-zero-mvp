@@ -18,6 +18,7 @@ Funcionalidades do MVP
 - Pagamentos com mKesh, M-Pesa e e-Mola (modo visível, pronto para integração real)
 - Painel administrativo simples com pedidos, comissões e fornecedores
 - Estrutura mobile-first e rápida para Android
+- API local de dados para simulação de resultados e pedidos
 
 Regras de negócio
 - Sem stock próprio
@@ -28,14 +29,17 @@ Regras de negócio
 Tecnologias
 - React
 - Vite
+- Express (API local)
 - CSS moderno
 
 Execução local
 1. Instale dependências:
    npm install
-2. Inicie o app:
+2. Inicie a API local:
+   npm run dev:server
+3. Inicie a app web:
    npm run dev
-3. Abra no navegador:
+4. Abra no navegador:
    http://localhost:3000
 
 Build de produção
@@ -48,4 +52,5 @@ Estrutura do projeto
 - src/App.jsx — lógica principal da aplicação
 - src/styles.css — estilos responsivos
 - src/main.jsx — bootstrap do React
+- server.js — API local de dados e simulação de pedidos
 

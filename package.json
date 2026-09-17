@@ -1,19 +1,198 @@
-{
-  "name": "solve-zero-mvp",
-  "private": true,
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+import express from 'express';
+import cors from 'cors';
+
+const app = express();
+const port = 4000;
+
+const categories = [
+  'Produtos',
+  'Telemóveis',
+  'Computadores',
+  'Carros',
+  'Imóveis',
+  'Serviços',
+  'Equipamentos',
+  'Viagens',
+  'Compras empresariais',
+  'Outros'
+];
+
+const offers = [
+  {
+    id: 1,
+    title: 'Smartphone Samsung Galaxy A35 5G',
+    category: 'Telemóveis',
+    location: 'Maputo',
+    price: 14990,
+    priceLabel: 'MZN 14.990',
+    provider: 'Jumbo Moçambique',
+    delivery: 'Entrega em 48h',
+    sourceUrl: 'https://www.jumbo.co.mz',
+    verifiedAt: 'Hoje, 09:32',
+    commission: '4.5%',
+    badge: 'Preço verificado',
+    stock: 'Disponível'
   },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+  {
+    id: 2,
+    title: 'Laptop Lenovo IdeaPad 5 15IAH7',
+    category: 'Computadores',
+    location: 'Maputo',
+    price: 42900,
+    priceLabel: 'MZN 42.900',
+    provider: 'Technologia 4U',
+    delivery: 'A retirar ou enviar',
+    sourceUrl: 'https://tecnologia4u.co.mz',
+    verifiedAt: 'Hoje, 10:15',
+    commission: '6%',
+    badge: 'Fonte validada',
+    stock: 'Em stock'
   },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.4.10"
+  {
+    id: 3,
+    title: 'Toyota Corolla 2021',
+    category: 'Carros',
+    location: 'Beira',
+    price: 975000,
+    priceLabel: 'MZN 975.000',
+    provider: 'Carros & Cia',
+    delivery: 'Vista e documentação',
+    sourceUrl: 'https://carrosecia.co.mz',
+    verifiedAt: 'Ontem, 18:40',
+    commission: '3.5%',
+    badge: 'Verificação documental',
+    stock: 'Disponível'
+  },
+  {
+    id: 4,
+    title: 'Apartamento 2 quartos em Matola',
+    category: 'Imóveis',
+    location: 'Matola',
+    price: 680000,
+    priceLabel: 'MZN 680.000',
+    provider: 'Casa Nova',
+    delivery: 'Visita agendada',
+    sourceUrl: 'https://casanova.co.mz',
+    verifiedAt: 'Ontem, 14:10',
+    commission: '5%',
+    badge: 'Listagem validada',
+    stock: 'Disponível'
+  },
+  {
+    id: 5,
+    title: 'Serviço de entrega expressa para Maputo',
+    category: 'Serviços',
+    location: 'Maputo',
+    price: 2500,
+    priceLabel: 'MZN 2.500',
+    provider: 'MKT Express',
+    delivery: '24 a 72h',
+    sourceUrl: 'https://mktexpress.co.mz',
+    verifiedAt: 'Hoje, 08:20',
+    commission: '7%',
+    badge: 'Tempo real',
+    stock: 'Disponível'
+  },
+  {
+    id: 6,
+    title: 'Pacote de viagem para Inhambane',
+    category: 'Viagens',
+    location: 'Maputo',
+    price: 18500,
+    priceLabel: 'MZN 18.500',
+    provider: 'MZ Travel',
+    delivery: 'Agendamento por WhatsApp',
+    sourceUrl: 'https://mztravel.co.mz',
+    verifiedAt: 'Hoje, 12:45',
+    commission: '8%',
+    badge: 'Oferta activa',
+    stock: 'Disponível'
   }
-}
+];
+
+const suppliers = [
+  { id: 1, name: 'Jumbo Moçambique', segment: 'Retalho', location: 'Maputo' },
+  { id: 2, name: 'Technologia 4U', segment: 'Tecnologia', location: 'Beira' },
+  { id: 3, name: 'Carros & Cia', segment: 'Automóveis', location: 'Nampula' },
+  { id: 4, name: 'Casa Nova', segment: 'Imóveis', location: 'Maputo' },
+  { id: 5, name: 'MKT Express', segment: 'Logística', location: 'Quelimane' },
+  { id: 6, name: 'MZ Travel', segment: 'Viagens', location: 'Maputo' }
+];
+
+const orders = [
+  { id: 'SOL-000182', client: 'Ana B.', product: 'Samsung Galaxy A35', total: 14990, status: 'Pago', commission: 675 },
+  { id: 'SOL-000183', client: 'Joel M.', product: 'Laptop Lenovo', total: 42900, status: 'Em validação', commission: 2574 },
+  { id: 'SOL-000184', client: 'Lina C.', product: 'Entrega expressa', total: 2500, status: 'Pago', commission: 175 },
+  { id: 'SOL-000185', client: 'Pedro G.', product: 'Apartamento', total: 680000, status: 'Aguardando', commission: 34000 }
+];
+
+const transactions = [
+  { id: 'TX-401', buyer: 'Ana B.', vendor: 'Jumbo', total: 14990, status: 'Concluído' },
+  { id: 'TX-402', buyer: 'Joel M.', vendor: 'Technologia 4U', total: 42900, status: 'Em revisão' },
+  { id: 'TX-403', buyer: 'Lina C.', vendor: 'MKT Express', total: 2500, status: 'Concluído' }
+];
+
+app.use(cors());
+app.use(express.json());
+
+app.get('/api/categories', (req, res) => {
+  res.json({ data: categories });
+});
+
+app.get('/api/offers', (req, res) => {
+  const { query = '', category = '', location = '', budget = '' } = req.query;
+  const q = String(query).toLowerCase();
+  const filtered = offers.filter((item) => {
+    const matchesText = !q || item.title.toLowerCase().includes(q) || item.provider.toLowerCase().includes(q);
+    const matchesLocation = !location || item.location.toLowerCase().includes(String(location).toLowerCase());
+    const matchesCategory = !category || category === 'Outros' || item.category === category;
+    const matchesBudget = !budget || Number(item.price) <= Number(budget || 999999999);
+    return matchesText && matchesLocation && matchesCategory && matchesBudget;
+  });
+
+  res.json({ data: filtered });
+});
+
+app.get('/api/suppliers', (req, res) => {
+  res.json({ data: suppliers });
+});
+
+app.get('/api/orders', (req, res) => {
+  res.json({ data: orders });
+});
+
+app.get('/api/transactions', (req, res) => {
+  res.json({ data: transactions });
+});
+
+app.post('/api/orders', (req, res) => {
+  const { product, provider, amount, paymentMethod, phoneNumber } = req.body || {};
+  const newOrder = {
+    id: `SOL-${String(Date.now()).slice(-6)}`,
+    product: product || 'Pedido novo',
+    provider: provider || 'Fornecedor',
+    amount: amount || 0,
+    paymentMethod: paymentMethod || 'mKesh',
+    phoneNumber: phoneNumber || '',
+    status: 'Pago'
+  };
+
+  orders.unshift(newOrder);
+  transactions.unshift({
+    id: `TX-${String(Date.now()).slice(-3)}`,
+    buyer: 'Cliente novo',
+    vendor: provider || 'Fornecedor',
+    total: amount || 0,
+    status: 'Concluído'
+  });
+
+  res.status(201).json({
+    ok: true,
+    data: newOrder,
+    message: 'Pedido recebido e preparado para processamento.'
+  });
+});
+
+app.listen(port, () => {
+  console.log(`SOLVE ZERO API listening on http://localhost:${port}`);
+});
